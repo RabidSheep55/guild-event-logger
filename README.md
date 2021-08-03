@@ -17,3 +17,47 @@ Required env variables
 | HYPIXEL_API_KEY  | 18f3446d-059c-4e1b-8235c-d6a1b2341731 |
 
 The idea is that a new database is used for each event, as players and datapoints will vary.
+
+# Example data in each setup collection on the DB
+
+## `profile_data_paths`
+
+```json
+[
+  {
+    "enabled": true,
+    "display_name": "Fishing XP",
+    "path": "experience_skill_fishing"
+  },
+  {
+    "enabled": true,
+    "display_name": "Flaming Worm Kills",
+    "path": "stats.kills_flaming_worm"
+  }
+]
+```
+
+## `player_main_profiles`
+
+```json
+[
+  {
+    "username": "RabidSheep55",
+    "uuid": "b4f65141c5dd43939655919a519d957c",
+    "profileID": "b4f65141c5dd43939655919a519d957c",
+    "cute_name": "Watermelon"
+  },
+  {
+    "username": "Appable",
+    "uuid": "59998433ceda41c1b0acffe7d9b33594",
+    "profileID": "5d81ccb06c2745e58818c865b01edb69",
+    "cute_name": "Orange"
+  },
+  {
+    "username": "COOKIE1799",
+    "uuid": "30104365d49a43f4845948b9872c0ea3",
+    "profileID": "30104365d49a43f4845948b9872c0ea3",
+    "cute_name": "Zucchini"
+  }
+]
+```

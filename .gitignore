@@ -1,4 +1,5 @@
 dev.env
 profile.json
+paths.json
 profiles.json
 package_to_zip.sh
