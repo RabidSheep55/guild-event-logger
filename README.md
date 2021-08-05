@@ -1,6 +1,6 @@
 # FPF Guild Event Logger
 
-Made for deployment on an AWS Lambda function, called by a cloudwatch event setup with CRON. Will fetch all user profile data from `player_main_profiles`, and extract data as outlined in `profile_data_paths` before saving a log entry to `timedata`.
+Made for deployment on an AWS Lambda function, called by a cloudwatch event setup with CRON. Will fetch all user profile data from `player_main_profiles`, and extract data as outlined in `point_params` before saving a log entry to `timedata`.
 
 Connects to a mongodb atlas instance where each of the collections above are hosted.
 
@@ -20,19 +20,21 @@ The idea is that a new database is used for each event, as players and datapoint
 
 # Example data in each setup collection on the DB
 
-## `profile_data_paths`
+## `point_params`
 
 ```json
 [
   {
     "enabled": true,
     "display_name": "Fishing XP",
-    "path": "experience_skill_fishing"
+    "profile_path": "experience_skill_fishing",
+    "weight": 1
   },
   {
     "enabled": true,
     "display_name": "Flaming Worm Kills",
-    "path": "stats.kills_flaming_worm"
+    "profile_path": "stats.kills_flaming_worm",
+    "weight": 8.5
   }
 ]
 ```

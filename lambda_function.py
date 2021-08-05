@@ -29,12 +29,15 @@ for profile in db["player_main_profiles"].find({}, {"_id": 0}):
     profiles += [profile]
 
 print(profiles)
-quit()
 
 # Import the stats to capture from profile data
 profile_data_paths = {}
-for path in db["profile_data_paths"].find({"enabled": True}, {"_id": 0}):
-    profile_data_paths[path["display_name"]] = path["path"]
+for item in db["point_params"].find(
+    {"enabled": True}, {"_id": 0, "display_name": 1, "profile_path": 1}
+):
+    profile_data_paths[item["display_name"]] = item["profile_path"]
+
+print(profile_data_paths)
 
 # API Fetching Params
 BASE_PROFILE_URL = r"https://api.hypixel.net/skyblock/profile"
@@ -48,7 +51,7 @@ def nested_get(data, query_path):
         element = query_path[0]
         if element:
             value = data.get(element)
-            return value if len(query_path) == 1 else get_nested(value, args[1:])
+            return value if len(query_path) == 1 else nested_get(value, query_path[1:])
 
 
 async def get_player_data():
@@ -75,7 +78,8 @@ async def get_player_data():
         username = profile["username"]
         uuid = profile["uuid"]
 
-        log = {"username": username}
+        # Add uuid to log (and username, but that's for debugging)
+        log = {"username": username, "uuid": uuid}
 
         try:
             if response.status_code == 200:
@@ -104,7 +108,7 @@ def lambda_handler(event, context):
     """Handler called when the cloud function is triggered by an event"""
 
     # Get All player XPs asyncronously
-    data = asyncio.run(get_player_xps())
+    data = asyncio.run(get_player_data())
 
     # Add log timestamp
     doc = {"timestamp": parser.parse(event["time"]), "data": data}
@@ -117,13 +121,15 @@ def lambda_handler(event, context):
 
 
 if __name__ == "__main__":
+    from datetime import datetime
+
     # Test event that would be sent by a cron job activated cloudwatch event
     test = {
         "id": "cdc73f9d-aea9-11e3-9d5a-835b769c0d9c",
         "detail-type": "Scheduled Event",
         "source": "aws.events",
         "account": "123456789012",
-        "time": "1970-01-01T00:00:00Z",
+        "time": str(datetime.now()),
         "region": "eu-west-2",
         "resources": ["arn:aws:events:eu-west-2:123456789012:rule/ExampleRule"],
         "detail": {},
