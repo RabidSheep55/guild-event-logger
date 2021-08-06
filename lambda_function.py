@@ -92,7 +92,10 @@ async def get_player_data():
                 for label, path in profile_data_paths.items():
                     keys = path.split(".")
                     datapoint = nested_get(profile_data, keys)
-                    log[label] = float(datapoint)
+                    if datapoint:
+                        log[label] = float(datapoint)
+                    else:
+                        log[label] = None
 
             else:
                 print(f"\t[{username}]: API Fetch Failed [code {response.status_code}]")
