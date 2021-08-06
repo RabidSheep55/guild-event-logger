@@ -3,3 +3,9 @@ profile.json
 paths.json
 profiles.json
 package_to_zip.sh
+event.json
+playerMainProfiles.json
+playerList.json
+package/
+code.zip
+guild_info.csv

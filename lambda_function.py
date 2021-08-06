@@ -60,6 +60,7 @@ async def get_player_data():
     """
 
     # Dispatch all reqs at once
+    print("Getting All Player Data")
     async with httpx.AsyncClient() as client:
         tasks = (
             client.get(
@@ -71,6 +72,7 @@ async def get_player_data():
         responses = await asyncio.gather(*tasks)
 
     # Handle all responses
+    print("Parsing Responses")
     data = []
     for i, response in enumerate(responses):
         profile = profiles[i]
